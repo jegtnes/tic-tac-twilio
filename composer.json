@@ -1,0 +1,7 @@
+{
+    "require": {
+        "slim/slim": "2.3.0",
+        "slim/extras": "dev-develop",
+        "twilio/sdk": "dev-master"
+    }
+}
