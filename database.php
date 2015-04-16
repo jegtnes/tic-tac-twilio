@@ -32,23 +32,28 @@ error_reporting(-1);
     $stmt = "SELECT id FROM game WHERE num1 = '$num' OR num2 = '$num'";
     $query = $GLOBALS['conn']->query($stmt);
     if ($query !== false) {
-      $row = $query->fetch_array();
-      echo $row[0];
+      $gameID = $query->fetch_array();
+      echo $gameID[0];
+      return $gameID[0];
     } else {
       echo "Error: " . $stmt . "<br>" . $GLOBALS['conn']->error;
     }
   }
 
-  function insertMove($player, $move, $id) {
-    $stmt = "INSERT INTO moves ($move, game_id) VALUES ($player, $id)";
+  function insertMove($player, $move) {
+    $id = getGameIdFromNumber($player);
+    $stmt = "INSERT INTO moves (`$move`, `game_id`) VALUES ($player, $id)
+              ON DUPLICATE KEY UPDATE `$move` = VALUES(`$move`)";
+    // echo $stmt;
     if ($GLOBALS['conn']->query($stmt) === TRUE) {
       echo "Move inserted successfully!";
     } else {
-      echo "Error: " . $stmt . "<br>" . $conn->error;
+      echo "Error: " . $stmt . "<br>" . $GLOBALS['conn']->error;
     }
   }
 
-  getGameIdFromNumber('34693');
+  // getGameIdFromNumber('34693');
+  insertMove('34693', '23');
   // startGame('34693', '9430752');
   // insertMove('07934009548', '22',)
 
